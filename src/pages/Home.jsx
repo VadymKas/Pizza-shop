@@ -27,6 +27,7 @@ export default function Home() {
         setPizzasDB(res);
         setIsLoading(false);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
