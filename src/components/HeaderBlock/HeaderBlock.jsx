@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Logo from '../assets/img/pizza-logo.svg';
+import Logo from '../../assets/img/pizza-logo.svg';
 
 export default function Header() {
   return (

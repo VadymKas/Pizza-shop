@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
-export default function Categories() {
-  const [active, setActive] = useState(0);
-
+export default function Categories({ value, categotyIdHandler}) {
   const categories = [
     'Все',
     'Мясные',
@@ -13,7 +9,7 @@ export default function Categories() {
   ];
 
   const activeCategoryHandler = (index) => {
-    setActive(index);
+    categotyIdHandler(index);
   };
 
   return (
@@ -23,7 +19,7 @@ export default function Categories() {
           <li
             key={index}
             onClick={() => activeCategoryHandler(index)}
-            className={active === index ? 'active' : ''}>
+            className={value === index ? 'active' : ''}>
             {category}
           </li>
         ))}
