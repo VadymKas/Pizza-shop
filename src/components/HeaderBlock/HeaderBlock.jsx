@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import Logo from '../../assets/img/pizza-logo.svg';
 
+import SearchBlock from '../SearchBlock/SearchBlock';
+
 export default function Header() {
   return (
     <div className='header'>
@@ -19,6 +21,7 @@ export default function Header() {
             </div>
           </div>
         </Link>
+        <SearchBlock />
         <div className='header__cart'>
           <Link
             to='/cart'
