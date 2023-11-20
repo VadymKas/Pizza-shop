@@ -1,24 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 import Categories from '../components/CategoriesBlock';
 import Sort from '../components/SortBlock';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import PaginationBlock from '../components/PaginationBlock';
-
 import { SearchContext } from '../App';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 
 export default function Home() {
   const [pizzasDB, setPizzasDB] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categotyId, setCategotyId] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({
-    name: 'популярности (DESC)',
-    sortProperty: 'rating',
-    sortType: 'desc',
-  });
-  const {searchValue} = useContext(SearchContext);
+
+  const { searchValue } = useContext(SearchContext);
+
+  const dispatch = useDispatch();
+  const { categoryId, currentPage, sort } = useSelector((state) => state.filter);
 
   const preloadData = [...new Array(4)].map((_, index) => (
     <PizzaSkeleton key={index} />
@@ -31,45 +30,44 @@ export default function Home() {
     />
   ));
 
+  const onChangeCategory = (id) => dispatch(setCategoryId(id));
+  const onChangePage = (num) => dispatch(setCurrentPage(num));
+
   useEffect(() => {
     setIsLoading(true);
 
-    const searchCategory = categotyId > 0 ? `&category=${categotyId}` : '';
+    const searchCategory = categoryId > 0 ? `&category=${categoryId}` : '';
     const searchName = searchValue ? `&search=${searchValue}` : '';
 
-    fetch(
+    axios(
       'https://65564cc384b36e3a431f897e.mockapi.io/pizzaDB?' +
         `page=${currentPage}&limit=4` +
-        `&sortBy=${sortType.sortBy}` +
-        `&order=${sortType.sortOrder}` +
+        `&sortBy=${sort.sortBy}` +
+        `&order=${sort.sortOrder}` +
         searchCategory +
         searchName,
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setPizzasDB(res);
-        setIsLoading(false);
-      });
+    ).then((res) => {
+      setPizzasDB(res.data);
+      setIsLoading(false);
+    });
+
     window.scrollTo(0, 0);
-  }, [categotyId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort, searchValue, currentPage]);
 
   return (
     <div className='container'>
       <div className='content__top'>
         <Categories
-          value={categotyId}
-          categotyIdHandler={setCategotyId}
+          value={categoryId}
+          onChangeCategory={onChangeCategory}
         />
-        <Sort
-          value={sortType}
-          sortTypeHandler={setSortType}
-        />
+        <Sort />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
         {isLoading ? preloadData : pizzaData}
       </div>
-      <PaginationBlock setCurrentPage={setCurrentPage} />
+      <PaginationBlock currentPage={currentPage} setCurrentPage={onChangePage} />
     </div>
   );
 }

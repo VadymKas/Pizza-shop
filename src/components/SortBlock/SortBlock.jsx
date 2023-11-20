@@ -1,24 +1,28 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSort } from '../../redux/slices/filterSlice';
 
-export default function Sort({ value, sortTypeHandler }) {
+const list = [
+  { name: 'популярности (DESC)', sortBy: 'rating', sortOrder: 'desc' },
+  { name: 'популярности (ASC)', sortBy: 'rating', sortOrder: 'asc' },
+  { name: 'цене (DESC)', sortBy: 'price', sortOrder: 'desc' },
+  { name: 'цене (ASC)', sortBy: 'price', sortOrder: 'asc' },
+  { name: 'алфавиту (DESC)', sortBy: 'title', sortOrder: 'desc' },
+  { name: 'алфавиту (ASC)', sortBy: 'title', sortOrder: 'asc' },
+];
+
+export default function Sort() {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const sort = useSelector((state) => state.filter.sort);
 
-  const list = [
-    { name: 'популярности (DESC)', sortBy: 'rating', sortOrder: 'desc' },
-    { name: 'популярности (ASC)', sortBy: 'rating', sortOrder: 'asc' },
-    { name: 'цене (DESC)', sortBy: 'price', sortOrder: 'desc' },
-    { name: 'цене (ASC)', sortBy: 'price', sortOrder: 'asc' },
-    { name: 'алфавиту (DESC)', sortBy: 'title', sortOrder: 'desc' },
-    { name: 'алфавиту (ASC)', sortBy: 'title', sortOrder: 'asc' },
-  ];
-
-  const openSortHandler = () => {
+  const sortModalVisability = () => {
     setOpen((prev) => !prev);
   };
 
-  const selectedSortHandler = (index) => {
-    sortTypeHandler(index);
-    openSortHandler();
+  const selectedSortHandler = (obj) => {
+    dispatch(setSort(obj));
+    sortModalVisability();
   };
 
   return (
@@ -36,7 +40,7 @@ export default function Sort({ value, sortTypeHandler }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={openSortHandler}>{value.name}</span>
+        <span onClick={sortModalVisability}>{sort.name}</span>
       </div>
       {open && (
         <div className='sort__popup'>
@@ -46,8 +50,8 @@ export default function Sort({ value, sortTypeHandler }) {
                 key={index}
                 onClick={() => selectedSortHandler(item)}
                 className={
-                  value.sortProperty === item.sortProperty &&
-                  value.sortType === item.sortType
+                  sort.sortBy === item.sortBy &&
+                  sort.sortOrder === item.sortOrder
                     ? 'active'
                     : ''
                 }>
