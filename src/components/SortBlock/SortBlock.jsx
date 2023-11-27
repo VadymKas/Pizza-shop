@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort } from '../../redux/slices/filterSlice';
+import { useRef } from 'react';
 
-const list = [
+export const list = [
   { name: 'популярности (DESC)', sortBy: 'rating', sortOrder: 'desc' },
   { name: 'популярности (ASC)', sortBy: 'rating', sortOrder: 'asc' },
   { name: 'цене (DESC)', sortBy: 'price', sortOrder: 'desc' },
@@ -11,10 +12,11 @@ const list = [
   { name: 'алфавиту (ASC)', sortBy: 'title', sortOrder: 'asc' },
 ];
 
-export default function Sort() {
+function Sort() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
+  const sortRef = useRef();
 
   const sortModalVisability = () => {
     setOpen((prev) => !prev);
@@ -25,8 +27,24 @@ export default function Sort() {
     sortModalVisability();
   };
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.composedPath().includes(sortRef.current)) {
+        setOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    }
+  }, []);
+
   return (
-    <div className='sort'>
+    <div
+      className='sort'
+      ref={sortRef}>
       <div className='sort__label'>
         <svg
           width='10'
@@ -64,3 +82,5 @@ export default function Sort() {
     </div>
   );
 }
+
+export default memo(Sort);

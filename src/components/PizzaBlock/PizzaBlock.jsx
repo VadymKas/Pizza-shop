@@ -1,10 +1,27 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
+import { addProduct } from '../../redux/slices/cartSlice';
+
+const typeNames = ['тонкие', 'традиционные'];
+
+export default function PizzaBlock({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) {
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
-  const typeNames = ['тонкие', 'традиционные'];
+  const dispatch = useDispatch();
+  const product = useSelector((state) =>
+    state.cart.items.find((product) => product.id === id),
+  );
+
+  const productCount = product ? product.count : 0;
 
   const activeTypeHandler = (index) => {
     setActiveType(index);
@@ -12,6 +29,19 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
 
   const activeSizeHandler = (index) => {
     setActiveSize(index);
+  };
+
+  const addProductHandler = () => {
+    const product = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
+    };
+
+    dispatch(addProduct(product));
   };
 
   return (
@@ -46,7 +76,9 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
       </div>
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} грн.</div>
-        <button className='button button--outline button--add'>
+        <button
+          className='button button--outline button--add'
+          onClick={addProductHandler}>
           <svg
             width='12'
             height='12'
@@ -59,7 +91,7 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>{0}</i>
+          {productCount > 0 && <i>{productCount}</i>}
         </button>
       </div>
     </div>
