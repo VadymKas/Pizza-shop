@@ -23,7 +23,7 @@ export default function CartItem({ id, title, type, price, count, size, imageUrl
       </div>
       <div className='cart__item-info'>
         <h3>{title}</h3>
-        <p>{type},{size} см.</p>
+        <p>{type}, {size} см.</p>
       </div>
       <div className='cart__item-count'>
         <div onClick={removePizzaHandler} className='button button--outline button--circle cart__item-count-minus'>
@@ -63,7 +63,7 @@ export default function CartItem({ id, title, type, price, count, size, imageUrl
         </div>
       </div>
       <div className='cart__item-price'>
-        <b>{price * count}</b>
+        <b>{price * count} грн.</b>
       </div>
       <div onClick={deletePizzaHandler} className='cart__item-remove'>
         <div className='button button--outline button--circle'>

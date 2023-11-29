@@ -1,58 +1,110 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import qs from 'qs';
 
 import Categories from '../components/CategoriesBlock';
 import Sort from '../components/SortBlock';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import PaginationBlock from '../components/PaginationBlock';
-import { SearchContext } from '../App';
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { list } from '../components/SortBlock/SortBlock';
+
+import {
+  filterSelector,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice';
+import { fetchPizzas, pizzaSelector } from '../redux/slices/pizzaSlice';
 
 export default function Home() {
-  const [pizzasDB, setPizzasDB] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { searchValue } = useContext(SearchContext);
+  const isMounted = useRef(false);
 
   const dispatch = useDispatch();
-  const { categoryId, currentPage, sort } = useSelector((state) => state.filter);
+
+  const { searchValue, categoryId, currentPage, sort } =
+    useSelector(filterSelector);
+  const { items, status } = useSelector(pizzaSelector);
+
+  const navigate = useNavigate();
 
   const preloadData = [...new Array(4)].map((_, index) => (
     <PizzaSkeleton key={index} />
   ));
 
-  const pizzaData = pizzasDB.map((pizza) => (
+  const pizzaData = items.map((pizza) => (
     <PizzaBlock
       key={pizza.id}
       {...pizza}
     />
   ));
 
-  const onChangeCategory = (id) => dispatch(setCategoryId(id));
+  const pizzaError = (
+    <div className='content__error-info'>
+      <h2>Произошла ошибка</h2>
+      <p>Не удалось получить пиццы. Попробуйте повторить попытку позже</p>
+    </div>
+  );
+
+  const onChangeCategory = useCallback((id) => dispatch(setCategoryId(id)), []);
+
   const onChangePage = (num) => dispatch(setCurrentPage(num));
 
-  useEffect(() => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const searchCategory = categoryId > 0 ? `&category=${categoryId}` : '';
     const searchName = searchValue ? `&search=${searchValue}` : '';
+    const sortBy = `&sortBy=${sort.sortBy}`;
+    const order = `&order=${sort.sortOrder}`;
+    const page = `&page=${currentPage}&limit=4`;
 
-    axios(
-      'https://65564cc384b36e3a431f897e.mockapi.io/pizzaDB?' +
-        `page=${currentPage}&limit=4` +
-        `&sortBy=${sort.sortBy}` +
-        `&order=${sort.sortOrder}` +
-        searchCategory +
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        searchCategory,
         searchName,
-    ).then((res) => {
-      setPizzasDB(res.data);
-      setIsLoading(false);
-    });
+        page,
+      }),
+    );
 
     window.scrollTo(0, 0);
+  };
+
+  // Если изменили параметры и был первый рендер
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortBy: sort.sortBy,
+        sortOrder: sort.sortOrder,
+        categoryId,
+        currentPage,
+      });
+
+      navigate(`/?${queryString}`); 
+    } 
+
+    getPizzas();
   }, [categoryId, sort, searchValue, currentPage]);
+
+  // Парсим параметры при первом рендере
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = list.find(
+        (obj) =>
+          obj.sortBy === params.sortBy && obj.sortOrder === params.sortOrder,
+      );
+
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        }),
+      );
+    }
+    isMounted.current = true;
+  }, []);
 
   return (
     <div className='container'>
@@ -64,10 +116,17 @@ export default function Home() {
         <Sort />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
-      <div className='content__items'>
-        {isLoading ? preloadData : pizzaData}
-      </div>
-      <PaginationBlock currentPage={currentPage} setCurrentPage={onChangePage} />
+      {status === 'error' ? (
+        pizzaError
+      ) : status === 'loading' ? (
+        <div className='content__items'>{preloadData}</div>
+      ) : (
+        <div className='content__items'>{pizzaData}</div>
+      )}
+      <PaginationBlock
+        currentPage={currentPage}
+        setCurrentPage={onChangePage}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, memo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSort } from '../../redux/slices/filterSlice';
+import { setSort, sortSelector } from '../../redux/slices/filterSlice';
 import { useRef } from 'react';
 
 export const list = [
@@ -15,7 +15,7 @@ export const list = [
 function Sort() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
+  const sort = useSelector(sortSelector);
   const sortRef = useRef();
 
   const sortModalVisability = () => {

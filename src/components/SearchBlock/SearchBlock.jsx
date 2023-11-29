@@ -1,14 +1,15 @@
-import { useCallback, useContext, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 
 import styles from './SearchBlock.module.scss';
 
-import { SearchContext } from '../../App';
+import { setSearchValue } from '../../redux/slices/filterSlice';
 
 export default function SearchBlock() {
   const [value, setValue] = useState('');
-  const { setSearchValue } = useContext(SearchContext);
   const inputRef = useRef();
+  const dispatch = useDispatch();
 
   const inputValueHandler = (e) => {
     setValue(e.target.value);
@@ -16,14 +17,14 @@ export default function SearchBlock() {
   };
 
   const clearInputValue = () => {
-    setSearchValue('');
+    dispatch(setSearchValue(''));
     setValue('');
     inputRef.current.focus();
   };
 
   const updateSearchValue = useCallback(
-    debounce((str) => {
-      setSearchValue(str);
+    debounce((string) => {
+      dispatch(setSearchValue(string));
     }, 300),
     [],
   );

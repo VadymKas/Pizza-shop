@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CartItem from '../CartItem/CartItem';
 import CartEmpty from '../CartEmpty';
-import { clearProducts } from '../../redux/slices/cartSlice';
+import { cartSelector, clearProducts } from '../../redux/slices/cartSlice';
 
 export default function CartBlock() {
   const dispatch = useDispatch();
-  const { items, totalPrice, totalCount } = useSelector((state) => state.cart);
+  const { items, totalPrice, totalCount } = useSelector(cartSelector);
 
   const clearCartHandler = () => {
     if (window.confirm('Очистить корзину?')) {
