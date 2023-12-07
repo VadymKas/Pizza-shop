@@ -81,8 +81,8 @@ export default function Home() {
         currentPage,
       });
 
-      navigate(`/?${queryString}`); 
-    } 
+      navigate(`/?${queryString}`);
+    }
 
     getPizzas();
   }, [categoryId, sort, searchValue, currentPage]);
