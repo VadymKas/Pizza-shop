@@ -3,13 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSort, sortSelector } from '../../redux/slices/filterSlice';
 import { useRef } from 'react';
 
-type ListItem = {
-    name: string;
-    sortBy: string;
-    sortOrder: string;
-};
-
-export const list: ListItem[] = [
+export const list: Sort[] = [
     { name: 'популярности (DESC)', sortBy: 'rating', sortOrder: 'desc' },
     { name: 'популярности (ASC)', sortBy: 'rating', sortOrder: 'asc' },
     { name: 'цене (DESC)', sortBy: 'price', sortOrder: 'desc' },
@@ -28,7 +22,7 @@ const Sort: React.FC = () => {
         setOpen((prev) => !prev);
     };
 
-    const selectedSortHandler = (obj: ListItem) => {
+    const selectedSortHandler = (obj: Sort) => {
         dispatch(setSort(obj));
         sortModalVisability();
     };

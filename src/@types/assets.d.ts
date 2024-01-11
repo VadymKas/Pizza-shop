@@ -23,7 +23,16 @@ type PizzaObj = {
     price: number;
 };
 
-type CartItemType = {
+type PizzaProps = {
+    id: string;
+    title: string;
+    price: number;
+    imageUrl: string;
+    sizes: number[];
+    types: number[];
+};
+
+type CartItem = {
     id: string;
     title: string;
     type: string;
@@ -31,4 +40,40 @@ type CartItemType = {
     count: number;
     size: number;
     imageUrl: string;
+};
+
+//REDUX TYPES
+
+type CartSliceState = {
+    totalPrice: number;
+    totalCount: number;
+    items: CartItem[];
+};
+
+type Sort = {
+    name: string;
+    sortBy: 'rating' | 'price' | 'title';
+    sortOrder: 'desc' | 'asc';
+};
+
+type SearchParams = {
+    sortBy: string;
+    order: string;
+    searchCategory: string;
+    searchName: string;
+    page: string;
+};
+
+type FilterSliceState = {
+    searchValue: string;
+    categoryId: number;
+    currentPage: number;
+    sort: Sort;
+};
+
+type FetchParams = Record<string, string>;
+
+type PizzaSliceState = {
+    items: CartItem[];
+    status: 'loading' | 'success' | 'error';
 };

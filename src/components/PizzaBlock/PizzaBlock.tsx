@@ -6,16 +6,7 @@ import { addProduct, cartItemByIdSelector } from '../../redux/slices/cartSlice';
 
 const typeNames = ['тонкие', 'традиционные'];
 
-type PizzaBlockProps = {
-    id: string;
-    title: string;
-    price: number;
-    imageUrl: string;
-    sizes: number[];
-    types: number[];
-};
-
-const PizzaBlock: React.FC<PizzaBlockProps> = ({
+const PizzaBlock: React.FC<PizzaProps> = ({
     id,
     title,
     price,
@@ -47,6 +38,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
             imageUrl,
             type: typeNames[activeType],
             size: sizes[activeSize],
+            count: 0
         };
 
         dispatch(addProduct(product));

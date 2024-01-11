@@ -5,18 +5,12 @@ import {
     deleteProduct,
 } from '../../redux/slices/cartSlice';
 
-const CartItem: React.FC<CartItemType> = ({
-    id,
-    title,
-    type,
-    price,
-    count,
-    size,
-    imageUrl,
-}) => {
+const CartItem: React.FC<CartItem> = (item) => {
     const dispatch = useDispatch();
 
-    const addPizzaHandler = () => dispatch(addProduct({ id }));
+    const { id, title, type, price, count, size, imageUrl } = item;
+
+    const addPizzaHandler = () => dispatch(addProduct(item));
     const removePizzaHandler = () => dispatch(removeProduct(id));
     const deletePizzaHandler = () => {
         if (window.confirm('Ты действительно хочеш удалить пиццу из списка?')) {
