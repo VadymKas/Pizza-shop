@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 type CategoryType = {
     value: number;
     onChangeCategory: (idx: number) => void;
@@ -29,4 +31,4 @@ const Categories: React.FC<CategoryType> = ({ value, onChangeCategory }) => {
     );
 };
 
-export default Categories;
+export default memo(Categories);

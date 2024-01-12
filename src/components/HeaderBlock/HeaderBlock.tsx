@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -8,8 +9,17 @@ import SearchBlock from '../SearchBlock/SearchBlock';
 import { cartSelector } from '../../redux/slices/cartSlice';
 
 const Header: React.FC = () => {
-    const { totalPrice, totalCount } = useSelector(cartSelector);
+    const { items, totalPrice, totalCount } = useSelector(cartSelector);
     const { pathname } = useLocation();
+    const isMounted = useRef(false);
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const jsonPizzas = JSON.stringify(items);
+            localStorage.setItem('pizzas', jsonPizzas);
+        }
+        isMounted.current = true;
+    }, [items]);
 
     return (
         <div className='header'>
@@ -27,7 +37,7 @@ const Header: React.FC = () => {
                         </div>
                     </div>
                 </Link>
-                <SearchBlock />
+                {pathname !== '/cart' && <SearchBlock />}
                 <div className='header__cart'>
                     {pathname !== '/cart' && (
                         <Link

@@ -94,7 +94,9 @@ const Home: React.FC = () => {
     // Парсим параметры при первом рендере
     useEffect(() => {
         if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1)) as unknown as SearchParams;
+            const params = qs.parse(
+                window.location.search.substring(1),
+            ) as unknown as SearchParams;
             const sort = list.find(
                 (obj) =>
                     obj.sortBy === params.sortBy &&

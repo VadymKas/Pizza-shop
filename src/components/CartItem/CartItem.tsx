@@ -34,7 +34,8 @@ const CartItem: React.FC<CartItem> = (item) => {
                 </p>
             </div>
             <div className='cart__item-count'>
-                <div
+                <button
+                    disabled={count === 1}
                     onClick={removePizzaHandler}
                     className='button button--outline button--circle cart__item-count-minus'>
                     <svg
@@ -52,9 +53,9 @@ const CartItem: React.FC<CartItem> = (item) => {
                             fill='#EB5A1E'
                         />
                     </svg>
-                </div>
+                </button>
                 <b>{count}</b>
-                <div
+                <button
                     onClick={addPizzaHandler}
                     className='button button--outline button--circle cart__item-count-plus'>
                     <svg
@@ -72,7 +73,7 @@ const CartItem: React.FC<CartItem> = (item) => {
                             fill='#EB5A1E'
                         />
                     </svg>
-                </div>
+                </button>
             </div>
             <div className='cart__item-price'>
                 <b>{price * count} грн.</b>
