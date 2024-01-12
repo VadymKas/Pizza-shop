@@ -23,11 +23,12 @@ const PizzaInfo: React.FC = () => {
     return (
         <div className='pizza'>
             <img
+                className='pizza__img'
                 src={pizza.imageUrl}
                 alt='pizza'
             />
-            <h2>{pizza.title}</h2>
-            <p>Цена {pizza.price} грн.</p>
+            <h2 className='pizza__title'>{pizza.title}</h2>
+            <p className='pizza__description'>Цена {pizza.price} грн.</p>
         </div>
     );
 };
