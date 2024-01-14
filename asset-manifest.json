@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.6a2ad778.css",
-    "main.js": "/static/js/main.6bfd0907.js",
-    "Cart.js": "/static/js/Cart.db57fc15.chunk.js",
-    "NotFound.css": "/static/css/NotFound.c14cb6da.chunk.css",
-    "NotFound.js": "/static/js/NotFound.244c3df1.chunk.js",
-    "PizzaInfo.js": "/static/js/PizzaInfo.f1639271.chunk.js",
-    "static/js/787.de06ec54.chunk.js": "/static/js/787.de06ec54.chunk.js",
-    "static/media/empty-cart.png": "/static/media/empty-cart.db905d1f4b063162f25b.png",
-    "static/media/pizza-logo.svg": "/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
-    "static/media/cart.svg": "/static/media/cart.d05720f2b474db2145233cd2ce1d4e91.svg",
-    "index.html": "/index.html",
-    "main.6a2ad778.css.map": "/static/css/main.6a2ad778.css.map",
-    "main.6bfd0907.js.map": "/static/js/main.6bfd0907.js.map",
-    "Cart.db57fc15.chunk.js.map": "/static/js/Cart.db57fc15.chunk.js.map",
-    "NotFound.c14cb6da.chunk.css.map": "/static/css/NotFound.c14cb6da.chunk.css.map",
-    "NotFound.244c3df1.chunk.js.map": "/static/js/NotFound.244c3df1.chunk.js.map",
-    "PizzaInfo.f1639271.chunk.js.map": "/static/js/PizzaInfo.f1639271.chunk.js.map",
-    "787.de06ec54.chunk.js.map": "/static/js/787.de06ec54.chunk.js.map"
+    "main.css": "/pizza-shop/static/css/main.6a2ad778.css",
+    "main.js": "/pizza-shop/static/js/main.190e58cb.js",
+    "Cart.js": "/pizza-shop/static/js/Cart.db57fc15.chunk.js",
+    "NotFound.css": "/pizza-shop/static/css/NotFound.c14cb6da.chunk.css",
+    "NotFound.js": "/pizza-shop/static/js/NotFound.244c3df1.chunk.js",
+    "PizzaInfo.js": "/pizza-shop/static/js/PizzaInfo.f1639271.chunk.js",
+    "static/js/787.de06ec54.chunk.js": "/pizza-shop/static/js/787.de06ec54.chunk.js",
+    "static/media/empty-cart.png": "/pizza-shop/static/media/empty-cart.db905d1f4b063162f25b.png",
+    "static/media/pizza-logo.svg": "/pizza-shop/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
+    "static/media/cart.svg": "/pizza-shop/static/media/cart.d05720f2b474db2145233cd2ce1d4e91.svg",
+    "index.html": "/pizza-shop/index.html",
+    "main.6a2ad778.css.map": "/pizza-shop/static/css/main.6a2ad778.css.map",
+    "main.190e58cb.js.map": "/pizza-shop/static/js/main.190e58cb.js.map",
+    "Cart.db57fc15.chunk.js.map": "/pizza-shop/static/js/Cart.db57fc15.chunk.js.map",
+    "NotFound.c14cb6da.chunk.css.map": "/pizza-shop/static/css/NotFound.c14cb6da.chunk.css.map",
+    "NotFound.244c3df1.chunk.js.map": "/pizza-shop/static/js/NotFound.244c3df1.chunk.js.map",
+    "PizzaInfo.f1639271.chunk.js.map": "/pizza-shop/static/js/PizzaInfo.f1639271.chunk.js.map",
+    "787.de06ec54.chunk.js.map": "/pizza-shop/static/js/787.de06ec54.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6a2ad778.css",
-    "static/js/main.6bfd0907.js"
+    "static/js/main.190e58cb.js"
   ]
 }
