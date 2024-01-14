@@ -1,38 +1,46 @@
 import './scss/app.scss';
 
+import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
-import Cart from './pages/Cart';
-import NotFound from './pages/NotFound';
-import PizzaInfo from './pages/PizzaInfo.tsx';
 import MainLayout from './layouts/MainLayout';
+
+const Cart = lazy(() => import(/* webpackChunkName: "Cart" */ './pages/Cart'));
+const NotFound = lazy(
+    () => import(/* webpackChunkName: "NotFound" */ './pages/NotFound'),
+);
+const PizzaInfo = lazy(
+    () => import(/* webpackChunkName: "PizzaInfo" */ './pages/PizzaInfo'),
+);
 
 function App() {
     return (
         <div className='App'>
-            <Routes>
-                <Route
-                    path='/'
-                    element={<MainLayout />}>
+            <Suspense fallback={<div>Идёт загрузка...</div>}>
+                <Routes>
                     <Route
-                        path=''
-                        element={<Home />}
-                    />
-                    <Route
-                        path='pizza/:id'
-                        element={<PizzaInfo />}
-                    />
-                    <Route
-                        path='cart'
-                        element={<Cart />}
-                    />
-                    <Route
-                        path='*'
-                        element={<NotFound />}
-                    />
-                </Route>
-            </Routes>
+                        path='/'
+                        element={<MainLayout />}>
+                        <Route
+                            path=''
+                            element={<Home />}
+                        />
+                        <Route
+                            path='pizza/:id'
+                            element={<PizzaInfo />}
+                        />
+                        <Route
+                            path='cart'
+                            element={<Cart />}
+                        />
+                        <Route
+                            path='*'
+                            element={<NotFound />}
+                        />
+                    </Route>
+                </Routes>
+            </Suspense>
         </div>
     );
 }
